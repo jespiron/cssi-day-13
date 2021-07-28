@@ -60,6 +60,7 @@ const editNote = (noteId) => {
         const note = data[noteId];
         document.querySelector("#editTitleInput").value = note.title;
         document.querySelector("#editTextInput").value = note.text;
+        editNoteModal.noteId= noteId;
     });
     editNoteModal.classList.toggle('is-active');
 }
@@ -76,4 +77,10 @@ const closeEditModal = () => {
 const saveEditedNote = () => {
     const editNoteModal = document.querySelector("#editNoteModal");
     editNoteModal.classList.toggle('is-active');
+    const noteId = editNoteModal.noteId;
+    noteEdits={
+        title: document.querySelector("#editTitleInput").value,
+        text: document.querySelector("#editTextInput").value,
+    }
+    firebase.database().ref(`users/${googleUserId}/${noteId}`).update(noteEdits);
 }
